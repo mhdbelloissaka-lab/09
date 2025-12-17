@@ -1,0 +1,34 @@
+‎name: Windows - RustDesk 32GB auto-restart
+‎
+‎permissions:
+‎  actions: write
+‎  contents: write
+‎
+‎on:
+‎  workflow_dispatch:
+‎
+‎jobs:
+‎  rustdesk-windows:
+‎    name: Windows RustDesk RDP (Max RAM/CPU)
+‎    runs-on: windows-latest
+‎    timeout-minutes: 360   # maximum GitHub Free / runner Windows
+‎
+‎    steps:
+‎      - name: Download & Install RustDesk
+‎        shell: powershell
+‎        run: |
+‎          Invoke-WebRequest `
+‎            -Uri "https://gitlab.com/chamod12/win10-github-rdp-rustdesk/-/raw/main/Downloads.bat" `
+‎            -OutFile "Downloads.bat"
+‎          cmd /c Downloads.bat
+‎
+‎      - name: Show RustDesk ID
+‎        shell: cmd
+‎        run: |
+‎          show.bat
+‎
+‎      - name: Keep Session Alive
+‎        shell: cmd
+‎        run: |
+‎          python time.py
+‎
