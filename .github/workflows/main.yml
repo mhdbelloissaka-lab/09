@@ -1,0 +1,30 @@
+name: Windows - RustDesk Auto-Restart
+
+permissions:
+  actions: write
+  contents: write
+
+on:
+  workflow_dispatch:
+  schedule:
+    
+jobs:
+  rustdesk:
+    runs-on: windows-latest
+
+    steps:
+      - name: Download & Install RustDesk
+        shell: powershell
+        run: |
+          Invoke-WebRequest -Uri "https://gitlab.com/chamod12/win10-github-rdp-rustdesk/-/raw/main/Downloads.bat" -OutFile "Downloads.bat"
+          cmd /c Downloads.bat
+
+      - name: Show ID
+        shell: cmd
+        run: |
+          show.bat
+
+      - name: Keep Alive
+        shell: cmd
+        run: |
+          python time.py
